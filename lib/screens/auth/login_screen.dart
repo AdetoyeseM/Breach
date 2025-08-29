@@ -1,3 +1,4 @@
+import 'package:breach_app/screens/home/home_screen.dart';
 import 'package:breach_app/utils/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,11 +27,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _login() async {
-    if (!_formKey.currentState!.validate()) return;
+    // if (!_formKey.currentState!.validate()) return;
+      Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) =>  HomeScreen(),
+                          ),
+                        );
 
-    await ref
-        .read(authProvider.notifier)
-        .login(_emailController.text.trim(), _passwordController.text);
+    // await ref
+    //     .read(authProvider.notifier)
+    //     .login(_emailController.text.trim(), _passwordController.text);
   }
 
   @override
