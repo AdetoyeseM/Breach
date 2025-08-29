@@ -3,60 +3,34 @@ import '../models/post.dart';
 import '../services/api_service.dart';
 
 class PostsNotifier extends StateNotifier<AsyncValue<List<Post>>> {
-  final ApiService _apiService;
-  
-  PostsNotifier(this._apiService) : super(const AsyncValue.loading());
+  final ApiService _apiService = ApiService();
+  int? _selectedCategoryId;
 
-  Future<void> loadPosts({String? category}) async {
+  PostsNotifier() : super(const AsyncValue.loading()) {
+    loadPosts();
+  }
+
+  int? get selectedCategoryId => _selectedCategoryId;
+
+  Future<void> loadPosts({int? categoryId}) async {
+    _selectedCategoryId = categoryId;
     state = const AsyncValue.loading();
+    
     try {
-      final posts = await _apiService.getPosts(category: category);
+      final posts = await _apiService.getPosts(categoryId: categoryId);
       state = AsyncValue.data(posts);
-    } catch (e) {
-      state = AsyncValue.error(e, StackTrace.current);
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
     }
+  }
+
+  Future<void> refreshPosts() async {
+    await loadPosts(categoryId: _selectedCategoryId);
   }
 }
 
-class CategoriesNotifier extends StateNotifier<AsyncValue<List<Category>>> {
-  final ApiService _apiService;
-  
-  CategoriesNotifier(this._apiService) : super(const AsyncValue.loading());
+final postsProvider = StateNotifierProvider<PostsNotifier, AsyncValue<List<Post>>>(
+  (ref) => PostsNotifier(),
+);
 
-  Future<void> loadCategories() async {
-    state = const AsyncValue.loading();
-    try {
-      final categories = await _apiService.getCategories();
-      state = AsyncValue.data(categories);
-    } catch (e) {
-      state = AsyncValue.error(e, StackTrace.current);
-    }
-  }
-}
-
-final postsProvider = StateNotifierProvider<PostsNotifier, AsyncValue<List<Post>>>((ref) {
-  return PostsNotifier(ApiService());
-});
-
-final categoriesProvider = StateNotifierProvider<CategoriesNotifier, AsyncValue<List<Category>>>((ref) {
-  return CategoriesNotifier(ApiService());
-});
-
-final selectedCategoryProvider = StateProvider<String?>((ref) => null);
-
-final filteredPostsProvider = Provider<AsyncValue<List<Post>>>((ref) {
-  final postsAsync = ref.watch(postsProvider);
-  final selectedCategory = ref.watch(selectedCategoryProvider);
-  
-  return postsAsync.when(
-    data: (posts) {
-      if (selectedCategory == null) {
-        return AsyncValue.data(posts);
-      }
-      final filtered = posts.where((post) => post.category == selectedCategory).toList();
-      return AsyncValue.data(filtered);
-    },
-    loading: () => const AsyncValue.loading(),
-    error: (error, stack) => AsyncValue.error(error, stack),
-  );
-});
+ 

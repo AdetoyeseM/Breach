@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/post.dart';
-import '../models/event.dart';
+import '../models/categories.dart';
 
 class ApiService {
-  static const String baseUrl = 'https://breach-api.qa.mvm-tech.xyz';
+  static const String baseUrl = 'https://breach-api.qa.mvm-tech.xyz/api/';
   static const String wsUrl = 'wss://breach-api-ws.qa.mvm-tech.xyz';
 
   // Authentication
@@ -14,18 +14,28 @@ class ApiService {
       final response = await http.post(
         Uri.parse('$baseUrl/auth/register'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'email': email,
-          'password': password,
-        }),
+        body: json.encode({'email': email, 'password': password}),
       );
 
       if (response.statusCode == 201) {
         return json.decode(response.body);
       } else {
-        throw Exception('Registration failed: ${response.body}');
+        // Extract user-friendly error message from response body
+        String errorMessage = 'Registration failed';
+        try {
+          final errorData = json.decode(response.body);
+          errorMessage =
+              errorData['message'] ?? errorData['error'] ?? errorMessage;
+        } catch (e) {
+          errorMessage = response.body;
+        }
+        throw Exception(errorMessage);
       }
     } catch (e) {
+      if (e.toString().contains('Exception:')) {
+        // Re-throw the parsed error message
+        throw Exception(e.toString().replaceFirst('Exception: ', ''));
+      }
       throw Exception('Network error: $e');
     }
   }
@@ -35,28 +45,41 @@ class ApiService {
       final response = await http.post(
         Uri.parse('$baseUrl/auth/login'),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'email': email,
-          'password': password,
-        }),
+        body: json.encode({'email': email, 'password': password}),
       );
 
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
-        throw Exception('Login failed: ${response.body}');
+        // Extract user-friendly error message from response body
+        String errorMessage = 'Login failed';
+        try {
+          final errorData = json.decode(response.body);
+          errorMessage =
+              errorData['message'] ?? errorData['error'] ?? errorMessage;
+        } catch (e) {
+          errorMessage = response.body;
+        }
+        throw Exception(errorMessage);
       }
     } catch (e) {
+      if (e.toString().contains('Exception:')) {
+        throw Exception(e.toString().replaceFirst('Exception: ', ''));
+      }
       throw Exception('Network error: $e');
     }
   }
 
   // Posts
-  Future<List<Post>> getPosts({String? category}) async {
+  Future<List<Post>> getPosts({int? categoryId}) async {
     try {
-      final queryParams = category != null ? {'category': category} : null;
+      String url = '$baseUrl/blog/posts';
+      if (categoryId != null) {
+        url += '?categoryId=$categoryId';
+      }
+
       final response = await http.get(
-        Uri.parse('$baseUrl/posts').replace(queryParameters: queryParams),
+        Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
       );
 
@@ -72,16 +95,16 @@ class ApiService {
   }
 
   // Categories
-  Future<List<Category>> getCategories() async {
+  Future<List<Categories>> getCategories() async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/categories'),
+        Uri.parse('$baseUrl/blog/categories'),
         headers: {'Content-Type': 'application/json'},
       );
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
-        return data.map((json) => Category.fromJson(json)).toList();
+        return data.map((json) => Categories.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load categories: ${response.body}');
       }
@@ -91,10 +114,21 @@ class ApiService {
   }
 
   // User Interests
-  Future<void> saveUserInterests(String token, List<String> interests) async {
+  Future<void> saveUserInterests(List<int> interests) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      final userJson = prefs.getString('user');
+
+      if (userJson == null) {
+        throw Exception('No user data found');
+      }
+
+      final userData = json.decode(userJson);
+      final token = userData['token'];
+      final userId = userData['userId'];
+
       final response = await http.post(
-        Uri.parse('$baseUrl/user/interests'),
+        Uri.parse('$baseUrl/users/$userId/interests'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -102,7 +136,7 @@ class ApiService {
         body: json.encode({'interests': interests}),
       );
 
-      if (response.statusCode != 200) {
+      if (response.statusCode != 201) {
         throw Exception('Failed to save interests: ${response.body}');
       }
     } catch (e) {

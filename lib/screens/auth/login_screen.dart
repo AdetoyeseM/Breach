@@ -1,7 +1,9 @@
+import 'package:breach_app/utils/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom_text_field.dart';
+import '../../models/user.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -15,7 +17,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -27,39 +28,54 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
 
-    setState(() => _isLoading = true);
-
-    try {
-      await ref
-          .read(authProvider.notifier)
-          .login(_emailController.text.trim(), _passwordController.text);
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Login failed: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
+    await ref
+        .read(authProvider.notifier)
+        .login(_emailController.text.trim(), _passwordController.text);
   }
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
+    final isLoading = authState.isLoading;
+    
+    // Handle AsyncValue states for SnackBars only when state changes
+    ref.listen<AsyncValue<UserDTO?>>(authProvider, (previous, next) {
+      next.whenData((user) {
+        if (user != null && previous?.value == null) {
+          // Show success SnackBar when user is logged in (only on state change)
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Login successful!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+      });
+      
+      next.whenOrNull(
+        error: (error, stackTrace) {
+          // Show error SnackBar only when error state changes
+          if (previous?.hasError != true) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(error.toString()),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+      );
+    });
+    
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Form(
             key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: ListView(
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
                   'Welcome Back',
@@ -79,14 +95,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 // Email Field
                 CustomTextField(
+                  validator: Validators.email,
                   labelText: "Email",
                   hintText: "johndoe@gmail.com",
-                  controller: _emailController), 
+                  controller: _emailController,
+                ),
 
                 // Password Field
                 CustomTextField(
+                  validator: (p0) {
+                    return Validators.required(p0, "Password");
+                  },
+
                   labelText: "Password",
-                  hintText:  "----------",
+                  hintText: "----------",
                   isPasswordField: true,
                   controller: _passwordController,
                 ),
@@ -95,9 +117,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 // Login Button
                 ElevatedButton(
-                  onPressed: _isLoading ? null : _login,
+                  onPressed: isLoading ? null : _login,
                   child:
-                      _isLoading
+                      isLoading
                           ? const SizedBox(
                             height: 20,
                             width: 20,
@@ -113,7 +135,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 const SizedBox(height: 16),
 
-                // Register Link
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

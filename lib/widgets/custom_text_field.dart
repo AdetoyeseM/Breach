@@ -80,6 +80,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
           if (widget.labelText?.isNotEmpty ?? false) const SizedBox(height: 5),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: widget.controller,
           keyboardType: widget.keyboardType,
           obscureText: widget.isPasswordField ? isTextObscured : widget.obscureText,

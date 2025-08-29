@@ -1,31 +1,34 @@
 class Post {
-  final String id;
+  final int id;
   final String title;
   final String content;
-  final String category;
-  final String? imageUrl;
-  final DateTime createdAt;
-  final String author;
+  final String imageUrl;
+  final String createdAt;
+  final Author author;
+  final Category category;
+  final Series series;
 
   Post({
     required this.id,
     required this.title,
     required this.content,
-    required this.category,
-    this.imageUrl,
+    required this.imageUrl,
     required this.createdAt,
     required this.author,
+    required this.category,
+    required this.series,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-      id: json['id'] ?? '',
+      id: json['id'] ?? 0,
       title: json['title'] ?? '',
       content: json['content'] ?? '',
-      category: json['category'] ?? '',
-      imageUrl: json['imageUrl'],
-      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
-      author: json['author'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
+      createdAt: json['createdAt'] ?? '',
+      author: Author.fromJson(json['author'] ?? {}),
+      category: Category.fromJson(json['category'] ?? {}),
+      series: Series.fromJson(json['series'] ?? {}),
     );
   }
 
@@ -34,30 +37,28 @@ class Post {
       'id': id,
       'title': title,
       'content': content,
-      'category': category,
       'imageUrl': imageUrl,
-      'createdAt': createdAt.toIso8601String(),
-      'author': author,
+      'createdAt': createdAt,
+      'author': author.toJson(),
+      'category': category.toJson(),
+      'series': series.toJson(),
     };
   }
 }
 
-class Category {
-  final String id;
+class Author {
+  final int id;
   final String name;
-  final String? description;
 
-  Category({
+  Author({
     required this.id,
     required this.name,
-    this.description,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(
-      id: json['id'] ?? '',
+  factory Author.fromJson(Map<String, dynamic> json) {
+    return Author(
+      id: json['id'] ?? 0,
       name: json['name'] ?? '',
-      description: json['description'],
     );
   }
 
@@ -65,7 +66,58 @@ class Category {
     return {
       'id': id,
       'name': name,
-      'description': description,
+    };
+  }
+}
+
+class Category {
+  final int id;
+  final String name;
+  final String icon;
+
+  Category({
+    required this.id,
+    required this.name,
+    required this.icon,
+  });
+
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      icon: json['icon'] ?? '📂',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'icon': icon,
+    };
+  }
+}
+
+class Series {
+  final int id;
+  final String name;
+
+  Series({
+    required this.id,
+    required this.name,
+  });
+
+  factory Series.fromJson(Map<String, dynamic> json) {
+    return Series(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
     };
   }
 }

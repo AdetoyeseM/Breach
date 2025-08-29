@@ -1,7 +1,7 @@
+import 'package:breach_app/providers/categories_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../providers/auth_provider.dart';
-import '../../../providers/posts_provider.dart';
+import '../../../providers/auth_provider.dart'; 
 import '../../../services/api_service.dart';
 
 class ProfileTab extends ConsumerStatefulWidget {
@@ -12,7 +12,7 @@ class ProfileTab extends ConsumerStatefulWidget {
 }
 
 class _ProfileTabState extends ConsumerState<ProfileTab> {
-  List<String> _selectedInterests = [];
+  final List<int> _selectedInterests = [];
   bool _isLoading = false;
 
   @override
@@ -24,21 +24,20 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
   }
 
   void _loadUserInterests() {
-    final user = ref.read(userProvider);
-    if (user != null) {
-      setState(() {
-        _selectedInterests = List.from(user.interests);
-      });
-    }
+    // final user = ref.read(userProvider);
+    // if (user != null) {
+    //   setState(() {
+    //     _selectedInterests = List.from(user.interests);
+    //   });
+    // }
   }
 
   Future<void> _saveInterests() async {
     setState(() => _isLoading = true);
 
-    try {
-      final token = await ref.read(authProvider.notifier).getToken();
-      if (token != null) {
-        await ApiService().saveUserInterests(token, _selectedInterests);
+    try { 
+    
+        await ApiService().saveUserInterests( _selectedInterests);
         
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -47,7 +46,7 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
               backgroundColor: Colors.green,
             ),
           );
-        }
+        
       }
     } catch (e) {
       if (mounted) {
@@ -113,7 +112,7 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    user.name ?? 'User',
+                    user.userId.toString() ?? 'User',
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -121,7 +120,7 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    user.email,
+                    user.userId.toString(),
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.grey,

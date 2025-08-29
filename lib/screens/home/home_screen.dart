@@ -18,7 +18,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   final List<Widget> _tabs = [
     const DashboardTab(),
-    const PostsTab(),
+      Container(),
     const ProfileTab(),
   ];
 

@@ -4,7 +4,7 @@ import '../models/user.dart';
 import '../services/api_service.dart';
 import 'dart:convert';
 
-class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
+class AuthNotifier extends StateNotifier<AsyncValue<UserDTO?>> {
   final ApiService _apiService;
   
   AuthNotifier(this._apiService) : super(const AsyncValue.loading()) {
@@ -18,7 +18,7 @@ class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
       final token = prefs.getString('token');
       
       if (userJson != null && token != null) {
-        final user = User.fromJson(Map<String, dynamic>.from(
+        final user = UserDTO.fromJson(Map<String, dynamic>.from(
           Map<String, dynamic>.from(Map.from(json.decode(userJson)))
         ));
         state = AsyncValue.data(user);
@@ -30,20 +30,20 @@ class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
     }
   }
 
-  Future<void> _saveUserToStorage(User user, String token) async {
+  Future<void> _saveUserToStorage(UserDTO user,) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('user', json.encode(user.toJson()));
-    await prefs.setString('token', token);
+    await prefs.setString('token', user.token ??'');
   }
 
   Future<void> register(String email, String password) async {
     state = const AsyncValue.loading();
     try {
       final response = await _apiService.register(email, password);
-      final user = User.fromJson(response['user']);
-      final token = response['token'];
-      
-      await _saveUserToStorage(user, token);
+      final user = UserDTO.fromJson(response);
+    
+      print("I AM THE USER ${user.toJson()}");
+      await _saveUserToStorage(user);
       state = AsyncValue.data(user);
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
@@ -54,12 +54,12 @@ class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
     state = const AsyncValue.loading();
     try {
       final response = await _apiService.login(email, password);
-      final user = User.fromJson(response['user']);
-      final token = response['token'];
+      final user = UserDTO.fromJson(response);
+     
       
-      await _saveUserToStorage(user, token);
+      await _saveUserToStorage(user);
       state = AsyncValue.data(user);
-    } catch (e) {
+    } catch (e) { 
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
@@ -81,11 +81,11 @@ class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
   }
 }
 
-final authProvider = StateNotifierProvider<AuthNotifier, AsyncValue<User?>>((ref) {
+final authProvider = StateNotifierProvider<AuthNotifier, AsyncValue<UserDTO?>>((ref) {
   return AuthNotifier(ApiService());
 });
 
-final userProvider = Provider<User?>((ref) {
+final userProvider = Provider<UserDTO?>((ref) {
   return ref.watch(authProvider).value;
 });
 

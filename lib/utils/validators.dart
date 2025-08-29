@@ -28,6 +28,19 @@ class Validators {
     return null;
   }
 
+    static String? confirmPassword(String? password, String? confirmPassword) {
+      if (confirmPassword == null || confirmPassword.isEmpty) {
+        return 'Please confirm your password';
+      }
+      if (password == null || password.isEmpty) {
+        return 'Password is required';
+      }
+      if (confirmPassword != password) {
+        return 'Passwords do not match';
+      }
+      return null;
+    }
+
   // Name validation
   static String? name(String? value) {
     if (value == null || value.isEmpty) {

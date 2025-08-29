@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
 import 'colors.dart';
 
 /// Breach App Theme Configuration
@@ -13,21 +13,27 @@ class AppTheme {
         brightness: Brightness.light,
       ),
       
-      // App Bar Theme
+      // Status Bar Theme
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.white,
+        backgroundColor: AppColors.white,
+        foregroundColor: AppColors.black,
         elevation: 0,
+        scrolledUnderElevation: 0,
+        surfaceTintColor : AppColors.white,
+        shadowColor: AppColors.white,
         centerTitle: true,
+       
         titleTextStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.white,
         ),
         iconTheme: IconThemeData(
-          color: AppColors.white,
+          color: AppColors.black,
         ),
       ),
+      
+
       
       // Card Theme
       cardTheme: CardTheme(
