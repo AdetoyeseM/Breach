@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,31 +24,34 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   Future<void> _checkAuthStatus() async {
     await Future.delayed(const Duration(seconds: 2));
-    
-    if (!mounted) return;
-    
-    final authState = ref.read(authProvider);
-    authState.when(
-      data: (user) {
-        if (user != null) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const HomeScreen()),
-          );
-        } else {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (_) => const LoginScreen()),
-          );
-        }
-      },
-      loading: () {
-        // Still loading, wait
-      },
-      error: (_, __) {
-        Navigator.of(context).pushReplacement(
+     Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const LoginScreen()),
         );
-      },
-    );
+    
+    // if (!mounted) return;
+    
+    // final authState = ref.read(authProvider);
+    // authState.when(
+    //   data: (user) {
+    //     if (user != null) {
+    //       Navigator.of(context).pushReplacement(
+    //         MaterialPageRoute(builder: (_) => const HomeScreen()),
+    //       );
+    //     } else {
+    //       Navigator.of(context).pushReplacement(
+    //         MaterialPageRoute(builder: (_) => const LoginScreen()),
+    //       );
+    //     }
+    //   },
+    //   loading: () {
+    //     // Still loading, wait
+    //   },
+    //   error: (_, __) {
+    //     Navigator.of(context).pushReplacement(
+    //       MaterialPageRoute(builder: (_) => const LoginScreen()),
+    //     );
+    //   },
+    // );
   }
 
   @override

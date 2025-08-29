@@ -4,11 +4,7 @@ import 'screens/splash_screen.dart';
 import 'constants/theme.dart';
 
 void main() {
-  runApp(
-    const ProviderScope(
-      child: BreachApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: BreachApp()));
 }
 
 class BreachApp extends StatelessWidget {
@@ -17,6 +13,7 @@ class BreachApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Breach',
       theme: AppTheme.lightTheme,
       home: const SplashScreen(),
