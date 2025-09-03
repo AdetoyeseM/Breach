@@ -154,13 +154,7 @@ This APK is a **test build** for the MVM Mobile Engineer Take Home Test. It incl
 - User interest management
 - Responsive mobile design
 
-### Support
-
-If you encounter any issues:
-- Check the [Troubleshooting](#troubleshooting) section above
-- Ensure your device meets the system requirements
-- Try clearing app data and reinstalling
-- Report bugs via GitHub Issues
+ 
 
 ## Features
 
