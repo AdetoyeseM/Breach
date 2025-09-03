@@ -99,51 +99,7 @@ flutter build ios --release --no-codesign
 - **Android AAB**: `build/app/outputs/bundle/`
 - **iOS**: `build/ios/`
 
-### Build Configuration
 
-#### Environment Variables
-```bash
-export FLUTTER_BUILD_NUMBER=123
-export FLUTTER_BUILD_NAME=1.2.3
-```
-
- 
-```
-
-### Troubleshooting
-
-#### Common Build Issues
-
-1. **Gradle Build Failed**
-   ```bash
-   cd android
-   ./gradlew clean
-   cd ..
-   flutter clean
-   flutter pub get
-   ```
-
-2. **iOS Build Issues**
-   ```bash
-   cd ios
-   pod deintegrate
-   pod install
-   cd ..
-   flutter clean
-   flutter pub get
-   ```
-
-3. **Build Performance Optimization**
-   ```bash
-   # Enable build cache
-   flutter build apk --release --build-cache
-   
-   # Parallel builds
-   flutter build apk --release --parallel
-   ```
-
- 
-```
 
 ### Best Practices
 
