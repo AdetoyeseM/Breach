@@ -26,7 +26,7 @@ class AppTheme {
         titleTextStyle: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          color: AppColors.white,
+          color: AppColors.black,
         ),
         iconTheme: IconThemeData(
           color: AppColors.black,

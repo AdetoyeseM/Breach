@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/post.dart';
 import '../models/categories.dart';
+import '../models/user_interest.dart';
 
 class ApiService {
   static const String baseUrl = 'https://breach-api.qa.mvm-tech.xyz/api/';
@@ -50,8 +51,7 @@ class ApiService {
 
       if (response.statusCode == 200) {
         return json.decode(response.body);
-      } else {
-        // Extract user-friendly error message from response body
+      } else { 
         String errorMessage = 'Login failed';
         try {
           final errorData = json.decode(response.body);
@@ -114,6 +114,41 @@ class ApiService {
   }
 
   // User Interests
+  Future<List<UserInterest>> getUserInterests(int userId) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userJson = prefs.getString('user');
+      
+      if (userJson == null) {
+        throw Exception('No user data found');
+      }
+      
+      final userData = json.decode(userJson);
+      final token = userData['token'];
+      
+      if (token == null) {
+        throw Exception('No authentication token found');
+      }
+
+      final response = await http.get(
+        Uri.parse('$baseUrl/users/$userId/interests'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        return data.map((json) => UserInterest.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load user interests: ${response.body}');
+      }
+    } catch (e) {
+      throw Exception('Network error: $e');
+    }
+  }
+
   Future<void> saveUserInterests(List<int> interests) async {
     try {
       final prefs = await SharedPreferences.getInstance();

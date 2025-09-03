@@ -106,7 +106,7 @@ class WebSocketService {
 
   void _scheduleReconnect() {
     _stopReconnectTimer();
-    _reconnectTimer = Timer(const Duration(seconds: 5), () {
+    _reconnectTimer = Timer(const Duration(seconds: 10), () {
       connect();
     });
   }

@@ -1,11 +1,9 @@
+import 'package:breach_app/constants/colors.dart';
 import 'package:breach_app/providers/websocket_init_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/auth_provider.dart';
-import '../../providers/websocket_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; 
 import '../../widgets/notification_listener.dart';
-import 'tabs/dashboard_tab.dart';
-import 'tabs/posts_tab.dart';
+import 'tabs/dashboard_tab.dart'; 
 import 'tabs/profile_tab.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -20,7 +18,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   final List<Widget> _tabs = [
     const DashboardTab(),
-    const PostsTab(),
+    const Placeholder(),
     const ProfileTab(),
   ];
 
@@ -43,7 +41,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) => setState(() => _currentIndex = index),
-          selectedItemColor: const Color(0xFF1E3A8A),
+          selectedItemColor: AppColors.primary,
           unselectedItemColor: Colors.grey,
           items: const [
             BottomNavigationBarItem(

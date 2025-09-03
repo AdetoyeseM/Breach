@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom_text_field.dart';
+import '../../widgets/password_strength_indicator.dart';
 import '../../models/user.dart';
 import '../onboarding/welcome_screen.dart';
 
@@ -18,13 +19,24 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+  final _passwordFocusNode = FocusNode();
+  bool _isPasswordFieldActive = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordFocusNode.addListener(() {
+      setState(() {
+        _isPasswordFieldActive = _passwordFocusNode.hasFocus;
+      });
+    });
+  }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
+    _passwordFocusNode.dispose();
     super.dispose();
   }
 
@@ -40,16 +52,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authProvider); 
+    final authState = ref.watch(authProvider);
     ref.listen<AsyncValue<UserDTO?>>(authProvider, (previous, next) {
       next.whenData((user) {
-        if (user != null && previous?.value == null) { 
+        if (user != null && previous?.value == null) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (_) => const WelcomeScreen(),
-            ),
+            MaterialPageRoute(builder: (_) => const WelcomeScreen()),
           );
-         
         }
       });
 
@@ -111,32 +120,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
         const SizedBox(height: 32),
 
-        // Show error message if available
-        if (errorMessage != null) ...[
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.red.shade50,
-              border: Border.all(color: Colors.red.shade200),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.error_outline, color: Colors.red.shade600, size: 20),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    errorMessage,
-                    style: TextStyle(color: Colors.red.shade700, fontSize: 14),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-        ],
-
         // Email Field
         CustomTextField(
           hintText: "johndoe@gmail.com",
@@ -151,16 +134,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           labelText: 'Password',
           hintText: 'Password',
           controller: _passwordController,
+          focusNode: _passwordFocusNode,
         ),
-        CustomTextField(
-          controller: _confirmPasswordController,
-          obscureText: true,
-          isPasswordField: true,
-          labelText: 'Confirm Password',
-          hintText: 'Confirm your password',
-          validator: (p0) {
-            return Validators.confirmPassword(_passwordController.text, p0);
-          },
+
+        // Password Strength Indicator
+        const SizedBox(height: 8),
+        PasswordStrengthIndicator(
+          passwordListenable: _passwordController,
+          isActive: _isPasswordFieldActive,
         ),
 
         const SizedBox(height: 24),

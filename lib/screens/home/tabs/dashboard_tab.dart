@@ -24,8 +24,7 @@ class _DashboardTabState extends ConsumerState<DashboardTab> {
 
   @override
   void initState() {
-    super.initState();
-    // Load categories for filtering
+    super.initState(); 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(categoriesProvider.notifier).loadCategories();
     });

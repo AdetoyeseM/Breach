@@ -64,9 +64,12 @@ class _InterestSelectionScreenState
             ),
           );
 
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-          return HomeScreen();
-        }));
+      Navigator.of(context).pushAndRemoveUntil(
+                 MaterialPageRoute(
+                   builder: (_) => const HomeScreen(),
+                 ),
+                 (route) => false, 
+               );
         }
       }
     } catch (e) {

@@ -29,7 +29,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
 
-
     await ref
         .read(authProvider.notifier)
         .login(_emailController.text.trim(), _passwordController.text);
@@ -39,22 +38,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
     final isLoading = authState.isLoading;
-    
+
     // Handle AsyncValue states for SnackBars only when state changes
     ref.listen<AsyncValue<UserDTO?>>(authProvider, (previous, next) {
       next.whenData((user) {
-        if (user != null && previous?.value == null) { 
-               Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) =>  HomeScreen(),
-                          ),
-                        );
+        if (user != null && previous?.value == null) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (_) => const HomeScreen()),
+            (route) => false,
+          );
         }
       });
-      
+
       next.whenOrNull(
         error: (error, stackTrace) {
-          // Show error SnackBar only when error state changes
           if (previous?.hasError != true) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -66,7 +63,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         },
       );
     });
-    
+
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
