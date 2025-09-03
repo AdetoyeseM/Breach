@@ -2,6 +2,35 @@
 
 A Flutter mobile application for staying informed about security news and real-time threat intelligence. This app provides users with a personalized experience to track events and read relevant articles.
 
+
+## Getting Started
+
+### Prerequisites
+- Flutter SDK (3.7.2 or higher)
+- Dart SDK
+- Android Studio / VS Code
+- Android/iOS device or emulator
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <https://github.com/AdetoyeseM/Breach.git>
+cd breach_app
+```
+
+2. Install dependencies:
+```bash
+flutter pub get
+```
+
+3. Run the app:
+```bash
+flutter run
+```
+
+
+
 ## 🚀 Building and Deployment
 
 ### Automated Build Scripts
@@ -23,19 +52,10 @@ chmod +x mobile_build.sh
 ./mobile_build.sh --android-only
 
 # Build only iOS
-./mobile_build.sh --ios-only
-
-# Build debug version
-./mobile_build.sh --debug
+./mobile_build.sh --ios-only 
 
 # Build profile version
-./mobile_build.sh --profile
-
-# Clean build with custom version
-./mobile_build.sh --clean --version=1.2.3 --build-number=123
-
-# Skip tests and build
-./mobile_build.sh --skip-tests
+./mobile_build.sh --release 
 ```
 
 #### Script Features
@@ -46,9 +66,7 @@ chmod +x mobile_build.sh
 - **Clean Builds**: Option to clean before building
 - **Test Integration**: Runs tests before building (can be skipped)
 - **Error Handling**: Comprehensive error checking and reporting
-- **Colored Output**: Easy-to-read colored terminal output
-- **File Location**: Shows where build files are located
-- **File Sizes**: Displays APK/AAB sizes after building
+- **Colored Output**: Easy-to-read colored terminal output 
 
 ### Manual Build Commands
 
@@ -100,15 +118,6 @@ flutter build ios --release --no-codesign
 - **iOS**: `build/ios/`
 
 
-
-### Best Practices
-
-1. **Version Management**: Always increment build numbers for new releases
-2. **Build Variants**: Use flavors for different environments (dev, staging, prod)
-3. **Code Signing**: Ensure proper code signing for production builds
-4. **Testing**: Test builds on actual devices before distribution
-5. **Documentation**: Keep build configurations documented and version controlled
-
 ## Features
 
 ### 🔐 Authentication
@@ -155,33 +164,6 @@ lib/
 ├── services/         # API and WebSocket services
 └── main.dart         # App entry point
 ```
-
-## Getting Started
-
-### Prerequisites
-- Flutter SDK (3.7.2 or higher)
-- Dart SDK
-- Android Studio / VS Code
-- Android/iOS device or emulator
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone <https://github.com/AdetoyeseM/Breach.git>
-cd breach_app
-```
-
-2. Install dependencies:
-```bash
-flutter pub get
-```
-
-3. Run the app:
-```bash
-flutter run
-```
-
 
 
 ## API Integration
@@ -237,4 +219,4 @@ The app connects to the Breach backend API:
 
 ## License
 
-This project is part of the MVM Mobile Engineer Take Home Test.
+This project is part of the MVM Mobile Engineer Take Home Test by MATTHEW ADETOYESE.
