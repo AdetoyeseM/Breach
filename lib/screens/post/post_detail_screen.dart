@@ -55,7 +55,7 @@ class PostDetailScreen extends StatelessWidget {
               iconTheme: IconThemeData(
                 color: toolbarCollapsed.value ? Colors.black : Colors.white,
               ),
-              
+
               flexibleSpace: LayoutBuilder(
                 builder: (context, constraint) {
                   toolbarCollapsed.value = constraint.maxHeight < 105;
@@ -90,23 +90,32 @@ class PostDetailScreen extends StatelessWidget {
                                       return CachedNetworkImage(
                                         imageUrl: post.imageUrl,
                                         fit: BoxFit.cover,
-                                        placeholder: (context, url) => Container(
-                                          color: AppColors.grey.withOpacity(0.1),
-                                          child: const Center(
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 2,
-                                              valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                                        placeholder:
+                                            (context, url) => Container(
+                                              color: AppColors.grey.withOpacity(
+                                                0.1,
+                                              ),
+                                              child: const Center(
+                                                child: CircularProgressIndicator(
+                                                  strokeWidth: 2,
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                        Color
+                                                      >(AppColors.white),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                        errorWidget: (context, url, error) => Container(
-                                          color: AppColors.grey.withOpacity(0.1),
-                                          child: const Icon(
-                                            Icons.image_not_supported,
-                                            size: 64,
-                                            color: AppColors.grey,
-                                          ),
-                                        ),
+                                        errorWidget:
+                                            (context, url, error) => Container(
+                                              color: AppColors.grey.withOpacity(
+                                                0.1,
+                                              ),
+                                              child: const Icon(
+                                                Icons.image_not_supported,
+                                                size: 64,
+                                                color: AppColors.grey,
+                                              ),
+                                            ),
                                       );
                                     },
                                   );
@@ -155,83 +164,94 @@ class PostDetailScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const SizedBox(height: 50),
-                                                          Align(
-                                alignment: Alignment.center,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Hero(
-                                    tag: 'post_centered_image_${post.id}',
-                                    flightShuttleBuilder: (
-                                      BuildContext flightContext,
-                                      Animation<double> animation,
-                                      HeroFlightDirection flightDirection,
-                                      BuildContext fromHeroContext,
-                                      BuildContext toHeroContext,
-                                    ) {
-                                      return AnimatedBuilder(
-                                        animation: animation,
-                                        builder: (context, child) {
-                                          return ClipRRect(
-                                            borderRadius: BorderRadius.circular(10),
-                                            child: CachedNetworkImage(
-                                              imageUrl: post.imageUrl,
-                                              fit: BoxFit.cover,
-                                              placeholder: (context, url) => Container(
-                                                width: 150,
-                                                height: 150,
-                                                color: AppColors.white.withOpacity(0.2),
-                                                child: const Icon(
-                                                  Icons.image,
-                                                  color: AppColors.white,
-                                                  size: 50,
-                                                ),
-                                              ),
-                                              errorWidget: (context, url, error) => Container(
-                                                width: 150,
-                                                height: 150,
-                                                color: AppColors.white.withOpacity(0.2),
-                                                child: const Icon(
-                                                  Icons.image,
-                                                  color: AppColors.white,
-                                                  size: 50,
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: CachedNetworkImage(
-                                      imageUrl: post.imageUrl,
-                                      width: 150,
-                                      height: 150,
-                                      fit: BoxFit.cover,
-                                      placeholder:
-                                          (context, url) => Container(
-                                            width: 150,
-                                            height: 150,
-                                            color: AppColors.white.withOpacity(0.2),
-                                            child: const Icon(
-                                              Icons.image,
-                                              color: AppColors.white,
-                                              size: 50,
-                                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Hero(
+                                  tag: 'post_centered_image_${post.id}',
+                                  flightShuttleBuilder: (
+                                    BuildContext flightContext,
+                                    Animation<double> animation,
+                                    HeroFlightDirection flightDirection,
+                                    BuildContext fromHeroContext,
+                                    BuildContext toHeroContext,
+                                  ) {
+                                    return AnimatedBuilder(
+                                      animation: animation,
+                                      builder: (context, child) {
+                                        return ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
                                           ),
-                                      errorWidget:
-                                          (context, url, error) => Container(
-                                            width: 150,
-                                            height: 150,
-                                            color: AppColors.white.withOpacity(0.2),
-                                            child: const Icon(
-                                              Icons.image,
-                                              color: AppColors.white,
-                                              size: 50,
-                                            ),
+                                          child: CachedNetworkImage(
+                                            imageUrl: post.imageUrl,
+                                            fit: BoxFit.cover,
+                                            placeholder:
+                                                (context, url) => Container(
+                                                  width: 150,
+                                                  height: 150,
+                                                  color: AppColors.white
+                                                      .withOpacity(0.2),
+                                                  child: const Icon(
+                                                    Icons.image,
+                                                    color: AppColors.white,
+                                                    size: 50,
+                                                  ),
+                                                ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Container(
+                                                      width: 150,
+                                                      height: 150,
+                                                      color: AppColors.white
+                                                          .withOpacity(0.2),
+                                                      child: const Icon(
+                                                        Icons.image,
+                                                        color: AppColors.white,
+                                                        size: 50,
+                                                      ),
+                                                    ),
                                           ),
-                                    ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: CachedNetworkImage(
+                                    imageUrl: post.imageUrl,
+                                    width: 150,
+                                    height: 150,
+                                    fit: BoxFit.cover,
+                                    placeholder:
+                                        (context, url) => Container(
+                                          width: 150,
+                                          height: 150,
+                                          color: AppColors.white.withOpacity(
+                                            0.2,
+                                          ),
+                                          child: const Icon(
+                                            Icons.image,
+                                            color: AppColors.white,
+                                            size: 50,
+                                          ),
+                                        ),
+                                    errorWidget:
+                                        (context, url, error) => Container(
+                                          width: 150,
+                                          height: 150,
+                                          color: AppColors.white.withOpacity(
+                                            0.2,
+                                          ),
+                                          child: const Icon(
+                                            Icons.image,
+                                            color: AppColors.white,
+                                            size: 50,
+                                          ),
+                                        ),
                                   ),
                                 ),
                               ),
+                            ),
                           ],
                         ),
                       ],
@@ -347,7 +367,6 @@ class PostDetailScreen extends StatelessWidget {
 
                       const SizedBox(height: 32),
 
-                      // Category and Series Chips
                       Row(
                         children: [
                           Container(
@@ -449,25 +468,6 @@ class PostDetailScreen extends StatelessWidget {
               ]),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTag(String tag) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.primary.withOpacity(0.3), width: 1),
-      ),
-      child: Text(
-        tag,
-        style: const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-          color: AppColors.primary,
         ),
       ),
     );

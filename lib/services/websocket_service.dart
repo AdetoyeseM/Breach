@@ -28,7 +28,7 @@ class WebSocketService {
 
       _channel!.stream.listen(
         (data) {
-          try { 
+          try {
             if (data == 'pong') {
               return;
             }
@@ -36,7 +36,7 @@ class WebSocketService {
             final jsonData = json.decode(data);
             final event = Event.fromJson(jsonData);
             onEventReceived(event);
-          } catch (e) { 
+          } catch (e) {
             //
           }
         },
