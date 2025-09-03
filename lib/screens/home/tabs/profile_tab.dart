@@ -10,6 +10,7 @@ import '../../../models/categories.dart';
 import '../../../constants/colors.dart';
 import '../../auth/login_screen.dart';
 import '../../../widgets/custom_text.dart';
+import '../../../widgets/custom_button.dart';
 
 class ProfileTab extends ConsumerStatefulWidget {
   const ProfileTab({super.key});
@@ -244,41 +245,13 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
 
                   const SizedBox(height: 32),
 
-                  // Save Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 56,
-                    child: ElevatedButton(
-                      onPressed:
-                          userInterestsAsync.isLoading ? null : _saveInterests,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        elevation: 4,
-                      ),
-                      child:
-                          userInterestsAsync.isLoading
-                              ? const SizedBox(
-                                height: 24,
-                                width: 24,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    Colors.white,
-                                  ),
-                                ),
-                              )
-                              : const Text(
-                                'Save Interests',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                    ),
+                                    // Save Button
+                  CustomButton(
+                    text: 'Save Interests',
+                    onPressed: _saveInterests,
+                    isLoading: userInterestsAsync.isLoading,
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
                   ),
 
                   const SizedBox(height: 32),

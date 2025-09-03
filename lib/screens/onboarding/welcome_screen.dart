@@ -1,7 +1,9 @@
 import 'package:breach_app/constants/assets.dart';
+import 'package:breach_app/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../constants/colors.dart';
+import '../../widgets/custom_button.dart';
 import 'interest_selection_screen.dart';
 
 class WelcomeScreen extends ConsumerWidget {
@@ -49,7 +51,7 @@ class WelcomeScreen extends ConsumerWidget {
               // Welcome Subtitle
               const Text(
                 'Just a few quick questions to help personalise your Breach experience. Are you ready?',
-                 style: TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   color: AppColors.grey,
                   height: 1.5,
@@ -60,37 +62,29 @@ class WelcomeScreen extends ConsumerWidget {
               const SizedBox(height: 48),
 
               // Get Started Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const InterestSelectionScreen(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.black,
-                    foregroundColor: AppColors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+              CustomButton(
+                text: 'Let\'s begin',
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const InterestSelectionScreen(),
                     ),
-                  ),
-                  child: const Text(
-                    'Let\'s begin',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                ),
+                  );
+                },
+                backgroundColor: AppColors.black,
+                foregroundColor: AppColors.white,
+                height: 56,
               ),
- 
+
               // Skip Button
               TextButton(
                 onPressed: () { 
-                  Navigator.of(
-                    context,
-                  ).pushNamedAndRemoveUntil('/home', (route) => false);
+              Navigator.of(context).pushAndRemoveUntil(
+                 MaterialPageRoute(
+                   builder: (_) => const HomeScreen(),
+                 ),
+                 (route) => false, 
+               );
                 },
                 child: const Text(
                   'Skip for now',

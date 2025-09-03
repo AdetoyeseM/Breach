@@ -1,4 +1,3 @@
-import 'package:breach_app/utils/validators.dart';
 import 'package:breach_app/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class CustomTextField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
-   final bool isPasswordField;
+  final bool isPasswordField;
   final VoidCallback? onTap;
   final void Function(String)? onChanged;
   final void Function(String)? onSubmitted;
@@ -56,18 +55,19 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-   bool isTextObscured = true;
-   
-   @override
-   void initState() {
-     super.initState();
-     // Initialize obscure text state based on whether it's a password field
-     isTextObscured = widget.isPasswordField;
-   }
+  bool isTextObscured = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize obscure text state based on whether it's a password field
+    isTextObscured = widget.isPasswordField;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom:16),
+      padding: EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -79,57 +79,61 @@ class _CustomTextFieldState extends State<CustomTextField> {
               color: AppColors.textFieldLabel,
             ),
           if (widget.labelText?.isNotEmpty ?? false) const SizedBox(height: 5),
-        TextFormField(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          controller: widget.controller,
-          keyboardType: widget.keyboardType,
-          obscureText: widget.isPasswordField ? isTextObscured : widget.obscureText,
-          enabled: widget.enabled,
-          maxLines: widget.maxLines,
-          maxLength: widget.maxLength,
-          inputFormatters: widget.inputFormatters,
-          onTap: widget.onTap,
-        
-          onChanged: widget.onChanged,
-          onFieldSubmitted: widget.onSubmitted,
-          focusNode: widget.focusNode,
-          autofocus: widget.autofocus,
-          readOnly: widget.readOnly,
-          initialValue: widget.initialValue,
-          validator: widget.validator,
-          decoration: InputDecoration(
-          suffixIcon: widget.isPasswordField
-              ? Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isTextObscured = !isTextObscured; 
-                      });
-                    },
-                    child: Icon(
-                      isTextObscured
-                          ? CupertinoIcons.eye_slash
-                          : Icons.remove_red_eye_outlined,
-                      size: 24.0,
-                    ),
-                  ),
-                )
-              : SizedBox(),
-          hintText: widget.hintText,
-          hintStyle: TextStyle(
-              color: AppColors.textFieldHint,
-              fontWeight: FontWeight.w400,
-              fontSize: 14.25),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey.shade300),
+          TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            controller: widget.controller,
+            keyboardType: widget.keyboardType,
+            obscureText:
+                widget.isPasswordField ? isTextObscured : widget.obscureText,
+            enabled: widget.enabled,
+            maxLines: widget.maxLines,
+            maxLength: widget.maxLength,
+            inputFormatters: widget.inputFormatters,
+            onTap: widget.onTap,
+            onChanged: widget.onChanged,
+            onFieldSubmitted: widget.onSubmitted,
+            focusNode: widget.focusNode,
+            autofocus: widget.autofocus,
+            readOnly: widget.readOnly,
+            initialValue: widget.initialValue,
+            validator: widget.validator,
+            decoration: InputDecoration(
+              suffixIcon:
+                  widget.isPasswordField
+                      ? Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isTextObscured = !isTextObscured;
+                            });
+                          },
+                          child: Icon(
+                            isTextObscured
+                                ? CupertinoIcons.eye_slash
+                                : Icons.remove_red_eye_outlined,
+                            size: 24.0,
+                          ),
+                        ),
+                      )
+                      : SizedBox(),
+              hintText: widget.hintText,
+              hintStyle: TextStyle(
+                color: AppColors.textFieldHint,
+                fontWeight: FontWeight.w400,
+                fontSize: 14.25,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 14,
+              ),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade300),
+              ),
+            ),
           ),
-        
-        )),
-      ],
-      )
+        ],
+      ),
     );
   }
 }
- 

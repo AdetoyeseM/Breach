@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom_text_field.dart';
+import '../../widgets/custom_button.dart';
 import '../../models/user.dart';
 import 'register_screen.dart';
 
@@ -113,21 +114,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(height: 24),
 
                 // Login Button
-                ElevatedButton(
-                  onPressed: isLoading ? null : _login,
-                  child:
-                      isLoading
-                          ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white,
-                              ),
-                            ),
-                          )
-                          : const Text('Sign In'),
+                CustomButton(
+                  text: 'Sign In',
+                  onPressed: _login,
+                  isLoading: isLoading,
                 ),
 
                 const SizedBox(height: 16),

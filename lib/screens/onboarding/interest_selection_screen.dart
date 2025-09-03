@@ -5,7 +5,8 @@ import 'package:breach_app/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../constants/colors.dart';
-import '../../services/api_service.dart'; 
+import '../../services/api_service.dart';
+import '../../widgets/custom_button.dart'; 
 
 class InterestSelectionScreen extends ConsumerStatefulWidget {
   const InterestSelectionScreen({super.key});

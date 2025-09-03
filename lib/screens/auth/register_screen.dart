@@ -1,10 +1,11 @@
-import 'dart:convert';
+ 
 import 'package:breach_app/utils/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/password_strength_indicator.dart';
+import '../../widgets/custom_button.dart';
 import '../../models/user.dart';
 import '../onboarding/welcome_screen.dart';
 
@@ -42,8 +43,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
-
-    // Navigator.of(context)
 
     await ref
         .read(authProvider.notifier)
@@ -86,9 +85,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             key: _formKey,
             child: authState.when(
               data: (user) {
-                // If user is registered, show success state
-
-                // Show registration form if user is null
                 return _buildRegisterForm(authState.isLoading);
               },
               loading: () => _buildRegisterForm(true),
@@ -147,19 +143,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         const SizedBox(height: 24),
 
         // Register Button
-        ElevatedButton(
-          onPressed: isLoading ? null : _register,
-          child:
-              isLoading
-                  ? const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
-                  )
-                  : const Text('Sign Up'),
+        CustomButton(
+          text: 'Sign Up',
+          onPressed: _register,
+          isLoading: isLoading,
         ),
 
         const SizedBox(height: 16),

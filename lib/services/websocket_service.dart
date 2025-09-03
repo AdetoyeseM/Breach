@@ -28,8 +28,7 @@ class WebSocketService {
 
       _channel!.stream.listen(
         (data) {
-          try {
-            // Check if it's a pong response
+          try { 
             if (data == 'pong') {
               return;
             }
@@ -37,8 +36,8 @@ class WebSocketService {
             final jsonData = json.decode(data);
             final event = Event.fromJson(jsonData);
             onEventReceived(event);
-          } catch (e) {
-            // Don't call onError for parsing errors, just log them
+          } catch (e) { 
+            //
           }
         },
         onError: (error) {

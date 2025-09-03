@@ -1,6 +1,5 @@
 // ignore_for_file: deprecated_member_use
-
-import 'package:breach_app/constants/assets.dart';
+ 
 import 'package:breach_app/providers/websocket_init_provider.dart';
 import 'package:breach_app/providers/websocket_provider.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,7 @@ import '../../../models/post.dart';
 import '../../../providers/posts_provider.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../providers/categories_provider.dart'; 
-import '../../post/post_detail_screen.dart';
-import '../../../widgets/post_card.dart';
+import '../../post/post_detail_screen.dart'; 
 
 class DashboardTab extends ConsumerStatefulWidget {
   const DashboardTab({super.key});
