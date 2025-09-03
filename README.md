@@ -104,9 +104,6 @@ flutter build ios --release
 # Profile build
 flutter build ios --profile
 
-# Build with custom version
-flutter build ios --release --build-name=1.2.3 --build-number=123
-
 # Archive for App Store (requires Xcode)
 flutter build ios --release --no-codesign
 ```
