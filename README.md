@@ -87,9 +87,7 @@ flutter build apk --split-per-abi --release
 
 # Android App Bundle (AAB) - Recommended for Play Store
 flutter build appbundle --release
-
-# Build with custom version
-flutter build apk --release --build-name=1.2.3 --build-number=123
+ 
 ```
 
 #### iOS Builds
