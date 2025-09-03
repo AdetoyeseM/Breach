@@ -145,7 +145,7 @@ flutter build ios --release --no-codesign
 
 ```
 lib/
-├── constant/         # Assets/themedata/colors etc
+├── constant/         # Assets,themedata,colors etc
 ├── models/           # Data models with JSON serialization
 ├── providers/        # Riverpod state management
 ├── screens/          # UI screens and navigation
