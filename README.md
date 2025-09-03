@@ -122,7 +122,6 @@ flutter build ios --release --no-codesign
 ### Download Links
 
 - **Direct Download**: [breach_app_v1.0.0.apk](releases/breach_app_v1.0.0.apk)
-- **GitHub Releases**: [View all releases](https://github.com/AdetoyeseM/Breach/releases)
 
 ### Installation Instructions
 
