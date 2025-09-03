@@ -111,12 +111,62 @@ flutter build ios --release --build-name=1.2.3 --build-number=123
 flutter build ios --release --no-codesign
 ```
 
-### Build Output Locations
+## 📱 Download APK
 
-- **Android APK**: `build/app/outputs/flutter-apk/`
-- **Android AAB**: `build/app/outputs/bundle/`
-- **iOS**: `build/ios/`
+### Latest Release
 
+**Version**: 1.0.0  
+**File Size**: 23.0 MB  
+**Platform**: Android 5.0+ (API level 21+)
+
+### Download Links
+
+- **Direct Download**: [breach_app_v1.0.0.apk](releases/breach_app_v1.0.0.apk)
+- **GitHub Releases**: [View all releases](https://github.com/AdetoyeseM/Breach/releases)
+
+### Installation Instructions
+
+1. **Enable Unknown Sources**:
+   - Go to Settings → Security → Unknown Sources
+   - Enable "Allow installation of apps from unknown sources"
+
+2. **Download and Install**:
+   - Download the APK file from the link above
+   - Open the downloaded file
+   - Tap "Install" when prompted
+   - Follow the installation wizard
+
+3. **Launch the App**:
+   - Find "Breach" in your app drawer
+   - Tap to open and start using the app
+
+
+### What's Included
+
+✅ **Security News Feed** - Latest security articles and updates  
+✅ **Real-time Events** - Live threat intelligence updates  
+✅ **User Authentication** - Secure login and registration  
+✅ **Personalized Content** - Customizable interest categories  
+✅ **Offline Reading** - Cache articles for offline access  
+✅ **Modern UI** - Material Design 3 interface  
+
+### Testing Notes
+
+This APK is a **test build** for the MVM Mobile Engineer Take Home Test. It includes:
+
+- Full authentication system
+- Real-time WebSocket events
+- Category-based content filtering
+- User interest management
+- Responsive mobile design
+
+### Support
+
+If you encounter any issues:
+- Check the [Troubleshooting](#troubleshooting) section above
+- Ensure your device meets the system requirements
+- Try clearing app data and reinstalling
+- Report bugs via GitHub Issues
 
 ## Features
 

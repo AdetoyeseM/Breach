@@ -251,13 +251,13 @@ main() {
     echo -e "${BLUE}⏰ Build started at: $(date)${NC}"
     
     # Check prerequisites
-    check_prerequisites
+    # check_prerequisites
     
-    # Show build summary
-    show_build_summary
+    # # Show build summary
+    # show_build_summary
     
-    Clean build if requested
-    clean_build 
+    # Clean build if requested
+    # clean_build 
 
     # Build Android if requested
     if [ "$BUILD_ANDROID" = true ]; then
