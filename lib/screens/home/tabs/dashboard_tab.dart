@@ -1,12 +1,15 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:breach_app/constants/assets.dart';
+import 'package:breach_app/providers/websocket_init_provider.dart';
+import 'package:breach_app/providers/websocket_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../constants/colors.dart';
 import '../../../models/post.dart';
 import '../../../providers/posts_provider.dart';
-import '../../../providers/categories_provider.dart';
+import '../../../providers/categories_provider.dart'; 
 import '../../post/post_detail_screen.dart';
 
 class DashboardTab extends ConsumerStatefulWidget {
@@ -39,6 +42,9 @@ class _DashboardTabState extends ConsumerState<DashboardTab> {
   Widget build(BuildContext context) {
     final postsAsync = ref.watch(postsProvider);
     final categoriesAsync = ref.watch(categoriesProvider);
+     final webSocketState = ref.watch(webSocketProvider);
+
+   
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -58,12 +64,23 @@ class _DashboardTabState extends ConsumerState<DashboardTab> {
                       color: AppColors.black,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      ref.read(postsProvider.notifier).refreshPosts();
-                    },
-                    icon: const Icon(Icons.refresh, color: AppColors.primary),
-                  ),
+                 GestureDetector(
+                  onTap: () {
+                       ref.read(webSocketInitProvider.notifier).initialize();
+   
+                  },
+                   child: Container(
+                                   width: 22,
+                                   height: 22,
+                                   decoration: BoxDecoration(
+                    color: webSocketState.isConnected 
+                        ? Colors.green 
+                        : Colors.orange,
+                    shape: BoxShape.circle,
+                                   ),
+                                 ),
+                 ),
+                 
                 ],
               ),
             ),
@@ -107,7 +124,9 @@ class _DashboardTabState extends ConsumerState<DashboardTab> {
                           child: FilterChip(
                             showCheckmark: false,
                             label: Row(
-                              mainAxisSize: MainAxisSize.min,
+                              // mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(category.icon ?? '📂'),
                                 const SizedBox(width: 4),
@@ -143,6 +162,11 @@ class _DashboardTabState extends ConsumerState<DashboardTab> {
 
             const SizedBox(height: 16),
 
+            // Real-time Events Widget
+            // const RealtimeEventsWidget(),
+
+            const SizedBox(height: 16),
+
             // Posts List
             Expanded(
               child: postsAsync.when(
@@ -171,10 +195,10 @@ class _DashboardTabState extends ConsumerState<DashboardTab> {
                             )
                             : RefreshIndicator(
                               onRefresh:
-                                  () =>
-                                      ref
+                                  ()
+                                    {  return ref
                                           .read(postsProvider.notifier)
-                                          .refreshPosts(),
+                                          .refreshPosts();},
                               child: ListView.builder(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 16,

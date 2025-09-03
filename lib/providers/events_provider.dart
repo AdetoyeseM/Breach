@@ -4,7 +4,7 @@ import '../services/websocket_service.dart';
 
 class EventsNotifier extends StateNotifier<List<Event>> {
   WebSocketService? _webSocketService;
-  
+
   EventsNotifier() : super([]);
 
   void connect(String token) {
@@ -17,7 +17,7 @@ class EventsNotifier extends StateNotifier<List<Event>> {
         print('WebSocket error: $error');
       },
     );
-    _webSocketService!.connect(token);
+    _webSocketService!.connect();
   }
 
   void disconnect() {
@@ -30,6 +30,8 @@ class EventsNotifier extends StateNotifier<List<Event>> {
   }
 }
 
-final eventsProvider = StateNotifierProvider<EventsNotifier, List<Event>>((ref) {
+final eventsProvider = StateNotifierProvider<EventsNotifier, List<Event>>((
+  ref,
+) {
   return EventsNotifier();
 });

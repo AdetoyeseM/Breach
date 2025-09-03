@@ -27,16 +27,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _login() async {
-    // if (!_formKey.currentState!.validate()) return;
-      Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) =>  HomeScreen(),
-                          ),
-                        );
+    if (!_formKey.currentState!.validate()) return;
 
-    // await ref
-    //     .read(authProvider.notifier)
-    //     .login(_emailController.text.trim(), _passwordController.text);
+
+    await ref
+        .read(authProvider.notifier)
+        .login(_emailController.text.trim(), _passwordController.text);
   }
 
   @override
@@ -47,14 +43,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     // Handle AsyncValue states for SnackBars only when state changes
     ref.listen<AsyncValue<UserDTO?>>(authProvider, (previous, next) {
       next.whenData((user) {
-        if (user != null && previous?.value == null) {
-          // Show success SnackBar when user is logged in (only on state change)
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Login successful!'),
-              backgroundColor: Colors.green,
-            ),
-          );
+        if (user != null && previous?.value == null) { 
+               Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) =>  HomeScreen(),
+                          ),
+                        );
         }
       });
       
