@@ -1,5 +1,4 @@
-import 'category_models.dart';
-
+import 'package:breach_app/models/shared_models.dart'; 
 class Post {
   final int id;
   final String title;

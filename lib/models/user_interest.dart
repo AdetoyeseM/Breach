@@ -1,4 +1,6 @@
-import 'category_models.dart';
+ 
+
+import 'package:breach_app/models/shared_models.dart';
 
 class UserInterest {
   final int id;
