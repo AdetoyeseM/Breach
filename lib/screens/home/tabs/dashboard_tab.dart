@@ -9,8 +9,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../../constants/colors.dart';
 import '../../../models/post.dart';
 import '../../../providers/posts_provider.dart';
+import '../../../widgets/custom_text.dart';
 import '../../../providers/categories_provider.dart'; 
 import '../../post/post_detail_screen.dart';
+import '../../../widgets/post_card.dart';
 
 class DashboardTab extends ConsumerStatefulWidget {
   const DashboardTab({super.key});
@@ -55,13 +57,11 @@ class _DashboardTabState extends ConsumerState<DashboardTab> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Dashboard',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.black,
-                    ),
+                  const TextView(
+                    text: 'Dashboard',
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.black,
                   ),
                  GestureDetector(
                   onTap: () {
@@ -99,7 +99,7 @@ class _DashboardTabState extends ConsumerState<DashboardTab> {
                             padding: const EdgeInsets.only(right: 8),
                             child: FilterChip(
                                 showCheckmark: false,
-                              label: const Text('All'),
+                              label: const TextView(text: 'All'),
                               padding: EdgeInsets.all(10),
                               selected: selectedCategoryId == null,
                               onSelected: (_) => _filterByCategory(null),

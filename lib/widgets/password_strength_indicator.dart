@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'custom_text.dart';
 
 class PasswordStrengthIndicator extends StatelessWidget {
   final ValueListenable<TextEditingValue> passwordListenable;
@@ -49,21 +50,20 @@ class PasswordStrengthIndicator extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text(
-                  strength.label,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: strength.color,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                            TextView(
+              text: strength.label,
+              fontSize: 12,
+              color: strength.color,
+              fontWeight: FontWeight.w500,
+            ),
               ],
             ),
             const SizedBox(height: 4),
-            Text(
-              strength.description,
-              style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
-            ),
+                    TextView(
+          text: strength.description,
+          fontSize: 11,
+          color: Colors.grey.shade600,
+        ),
           ],
         );
       },

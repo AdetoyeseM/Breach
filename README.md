@@ -1,6 +1,6 @@
 # Breach App
 
-A Flutter mobile application for staying informed about security news and real-time threat intelligence. This app provides users with a personalized experience to track cybersecurity events and read relevant articles.
+A Flutter mobile application for staying informed about security news and real-time threat intelligence. This app provides users with a personalized experience to track events and read relevant articles.
 
 ## Features
 
