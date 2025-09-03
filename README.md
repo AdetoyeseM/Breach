@@ -65,7 +65,7 @@ lib/
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone <https://github.com/AdetoyeseM/Breach.git>
 cd breach_app
 ```
 
@@ -95,8 +95,8 @@ flutter build ios --release
 
 The app connects to the Breach backend API:
 
-- **Base URL**: `https://breach-api.qa.mvm-tech.xyz`
-- **WebSocket**: `wss://breach-api-ws.qa.mvm-tech.xyz`
+- **Base URL**: `https://breach-***************.xyz`
+- **WebSocket**: `wss://breach-**********************.xyz`
 
 ### Available Endpoints
 
